@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\capture.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable\\capture.xml"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\empty.png",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable\\empty.png"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\recapture.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable\\recapture.xml"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable\\finish.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable\\finish.xml"
+    }
+]

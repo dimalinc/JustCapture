@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\recapture_gray.png",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable-hdpi\\recapture_gray.png"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_launcher.png",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable-hdpi\\ic_launcher.png"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\recapture.png",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable-hdpi\\recapture.png"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\save.png",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable-hdpi\\save.png"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\photo_gray.png",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable-hdpi\\photo_gray.png"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\photo.png",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable-hdpi\\photo.png"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\save_gray.png",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\drawable-hdpi\\save_gray.png"
+    }
+]

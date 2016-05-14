@@ -1,0 +1,30 @@
+[
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_notepad_select.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\layout\\activity_notepad_select.xml"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\layout\\note_row.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\layout\\note_row.xml"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_note.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\layout\\activity_note.xml"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\layout\\main.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\layout\\main.xml"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\layout\\activity_notes_list.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\layout\\activity_notes_list.xml"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\layout\\notepad_row.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\layout\\notepad_row.xml"
+    },
+    {
+        "merged": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\build\\intermediates\\res\\merged\\debug\\layout\\layout_for_list.xml",
+        "source": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\layout\\layout_for_list.xml"
+    }
+]
