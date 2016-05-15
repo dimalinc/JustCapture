@@ -1,7 +1,9 @@
 package mj.android.justcapture;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -23,6 +25,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NotesListActivity extends Activity implements View.OnClickListener {
+
+    public static final String APP_PREFERENCES = "mysettings";
+    public static final String APP_PREFERENCES_LAST_NOTEPAD_ID = "last_notepad_id";
+    protected static SharedPreferences mSettings;
+
+    static int lastId=0;
 
     NotePad notepad;
 
@@ -58,6 +66,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_list);
 
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
 
 
@@ -120,21 +129,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
     }
 
 
-    @Override
-    protected void onResume() {
-        super.onResume();
 
-        listFiles = listFilesWithSubFolders(new File(Environment.getExternalStorageDirectory(),NoteActivity.programDirectoryName));
-
-        for (File file:listFiles) {
-            Log.d("myLogs", file.getAbsolutePath());
-        }
-
-        adapter = new SimpleAdapter(this, createDataArrayList(), R.layout.note_row,
-                new String[] { "name", "category" }, new int[] {
-                R.id.tv1, R.id.tv2 });
-        listView.setAdapter(adapter);
-    }
 
     private ArrayList<HashMap<String, Object>> createDataArrayList() {
 
@@ -160,30 +155,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         }
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.buttonAddNote:
-                createNewNote();
-                Log.d("myLogs", "buttonAddNote click ");
-                Toast.makeText(NotesListActivity.this,
-                        "buttonAddNote click ", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.buttonDeleteNote:
-                Log.d("myLogs", "buttonDeleteNote click ");
-                Toast.makeText(NotesListActivity.this,
-                        "buttonDeleteNote click ", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.buttonCleanProgramDir:
-                deleteFileOrDirRecursievely(new File(Environment.getExternalStorageDirectory(),NoteActivity.programDirectoryName));
-                checkAndCreateProgramDir();
-                break;
-            case R.id.btnSaveNotepad:
-               // saveNotePad();
-                finish();
-                break;
-        }
-    }
+
 
 
 
@@ -249,6 +221,31 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         return files;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.buttonAddNote:
+                createNewNote();
+                Log.d("myLogs", "buttonAddNote click ");
+                Toast.makeText(NotesListActivity.this,
+                        "buttonAddNote click ", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.buttonDeleteNote:
+                Log.d("myLogs", "buttonDeleteNote click ");
+                Toast.makeText(NotesListActivity.this,
+                        "buttonDeleteNote click ", Toast.LENGTH_SHORT).show();
+                break;
+            case R.id.buttonCleanProgramDir:
+                deleteFileOrDirRecursievely(new File(Environment.getExternalStorageDirectory(),NoteActivity.programDirectoryName));
+                checkAndCreateProgramDir();
+                break;
+            case R.id.btnSaveNotepad:
+                // saveNotePad();
+                finish();
+                break;
+        }
+    }
+
     void saveNotePad()  {
 
         notepad = new NotePad();
@@ -256,7 +253,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
 
         Intent intent = new Intent();
         intent.putExtra("notepad", notepad);
-        Log.d("myLogs", "note returned as result of NoteActivity");
+        Log.d("myLogs", "notePad returned as result of NotesListActivity");
         setResult(RESULT_OK, intent);
        // finish();
 
@@ -267,6 +264,29 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
     protected void onPause() {
         super.onPause();
         saveNotePad();
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        listFiles = listFilesWithSubFolders(new File(Environment.getExternalStorageDirectory(),NoteActivity.programDirectoryName));
+
+        for (File file:listFiles) {
+            Log.d("myLogs", file.getAbsolutePath());
+        }
+
+        adapter = new SimpleAdapter(this, createDataArrayList(), R.layout.note_row,
+                new String[] { "name", "category" }, new int[] {
+                R.id.tv1, R.id.tv2 });
+        listView.setAdapter(adapter);
+
+
+        if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
+            lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID,0);
+        }
     }
 
 

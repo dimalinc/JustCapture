@@ -1,5 +1,7 @@
 package mj.android.justcapture;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -10,7 +12,12 @@ import java.util.Date;
 
 
 public class NotePad implements Parcelable {
-    static int lastId=0;
+
+    public static final String APP_PREFERENCES = "mysettings";
+    public static final String APP_PREFERENCES_LAST_NOTEPAD_ID = "last_notepad_id";
+    private SharedPreferences mSettings;
+
+    static int lastId=NotesListActivity.lastId;
 
     int id;
     String name;
@@ -18,9 +25,18 @@ public class NotePad implements Parcelable {
     Date lastModified;
 
     public NotePad() {
-        id = ++lastId;
 
-        notepadCreateDir(id);
+        mSettings = NotesListActivity.mSettings;
+
+        if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
+            // Получаем число из настроек
+            lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
+
+            id = ++lastId;
+
+
+            notepadCreateDir(id);
+        }
     }
 
     void notepadCreateDir(int id) {
@@ -31,7 +47,12 @@ public class NotePad implements Parcelable {
                 Log.d("myLogs", "couldn't create " + path);
                 return;
             }
-            Log.d("myLogs","created " + path);
+            Log.d("myLogs", "created " + path);
+
+            SharedPreferences.Editor editor = mSettings.edit();
+            editor.putInt(APP_PREFERENCES_LAST_NOTEPAD_ID, id);
+            editor.apply();
+
         }
 
     }

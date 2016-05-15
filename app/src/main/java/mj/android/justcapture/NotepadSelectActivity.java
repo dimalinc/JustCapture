@@ -1,6 +1,8 @@
 package mj.android.justcapture;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.app.Activity;
 import android.os.Environment;
@@ -17,6 +19,10 @@ import java.util.HashMap;
 
 public class NotepadSelectActivity extends Activity implements View.OnClickListener{
 
+    public static final String APP_PREFERENCES = "mysettings";
+    public static final String APP_PREFERENCES_LAST_NOTEPAD_ID = "last_notepad_id";
+    private SharedPreferences mSettings;
+
     final static int REQUEST_CODE_NEW_NOTEPAD = 5;
 
     ListAdapter adapter;
@@ -31,6 +37,9 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notepad_select);
+
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+
 
         btnAddNotepad = (Button)findViewById(R.id.buttonAddNotepad);
         btnDeleteAllNotepads = (Button)findViewById(R.id.buttonDeleteAlNotepads);
@@ -145,4 +154,21 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
 
     }
 
+   /* @Override
+    protected void onPause() {
+        super.onPause();
+
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putInt(APP_PREFERENCES_LAST_NOTEPAD_ID, NotePad.lastId);
+        editor.apply();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
+            NotePad.lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID,0);
+        }
+    }*/
 }
