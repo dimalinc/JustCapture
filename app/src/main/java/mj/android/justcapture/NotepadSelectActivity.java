@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.os.Environment;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -49,11 +50,24 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
 
         listView = (ListView) findViewById(R.id.listView);
 
+
        // notePadsList.add(new NotePad());
        // notePadsList.add(new NotePad());
 
         adapterInit();
 
+        //Обрабатываем щелчки на элементах ListView:
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> a, View v, int position, long id) {
+                Intent intent = new Intent();
+                intent.setClass(NotepadSelectActivity.this, NotesListActivity.class);
+
+                intent.putExtra("head", position);
+
+                //запускаем вторую активность
+                startActivity(intent);
+            }
+        });
     }
 
     void adapterInit() {
@@ -136,6 +150,9 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
         SharedPreferences.Editor editor = mSettings.edit();
         editor.putInt(APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
         editor.apply();
+
+        notePadsList = new ArrayList<>();
+        adapterInit();
     }
 
     public void deleteFileOrDirRecursievely(File file)

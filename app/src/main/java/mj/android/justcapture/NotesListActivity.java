@@ -30,12 +30,14 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
     public static final String APP_PREFERENCES_LAST_NOTEPAD_ID = "last_notepad_id";
     protected static SharedPreferences mSettings;
 
+    static String notepadName;
+
     static int lastId=0;
 
     NotePad notepad;
 
     Button addNote, deleteNote,cleanProgramDir, btnSaveNotepad;
-    static String notepadName;
+
     static int noteIndex = 0;
 
     static final int REQUEST_CODE_NEW_NOTE = 4;
@@ -267,6 +269,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         Log.d("myLogs", "notePad returned as result of NotesListActivity");
         setResult(RESULT_OK, intent);
         finish(); // оставить или убрать?
+        Log.d("myLogs", "finish() called");
 
 
     }
@@ -274,7 +277,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
     @Override
     protected void onPause() {
         super.onPause();
-      //  saveNotePad();
+       // saveNotePad();
 
 
     }

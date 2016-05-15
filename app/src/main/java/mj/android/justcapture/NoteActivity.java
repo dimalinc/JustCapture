@@ -373,7 +373,8 @@ public class NoteActivity extends Activity implements View.OnClickListener{
             return null;
 
         // Проверяем и создаем директорию
-        File path = new File(Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName + File.separator + NotesListActivity.notepadName + File.separator + NotesListActivity.noteIndex);
+        File path = new File(Environment.getExternalStorageDirectory(),
+                NoteActivity.programDirectoryName + File.separator + NotesListActivity.notepadName + File.separator + NotesListActivity.noteIndex);
         if (! path.exists()){
             if (! path.mkdirs()){
                 return null;
