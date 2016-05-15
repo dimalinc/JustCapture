@@ -71,8 +71,8 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
 
         listView = (ListView) findViewById(R.id.listView);
 
-        noteList.add(new Note(01,"name123","category123"));
-        noteList.add(new Note(02,"name124","category124"));
+       /* noteList.add(new Note(01,"name123","category123"));
+        noteList.add(new Note(02,"name124","category124"));*/
 
 
 
@@ -251,8 +251,8 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
                 checkAndCreateProgramDir();
                 break;
             case R.id.btnSaveNotepad:
-                // saveNotePad();
-                finish();
+                 saveNotePad();
+                // finish();
                 break;
         }
     }
@@ -266,7 +266,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         intent.putExtra("notepad", notepad);
         Log.d("myLogs", "notePad returned as result of NotesListActivity");
         setResult(RESULT_OK, intent);
-       // finish();
+        finish(); // оставить или убрать?
 
 
     }
@@ -274,7 +274,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
     @Override
     protected void onPause() {
         super.onPause();
-        saveNotePad();
+      //  saveNotePad();
 
 
     }

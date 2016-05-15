@@ -13,8 +13,6 @@ import java.util.Date;
 
 public class NotePad implements Parcelable {
 
-    public static final String APP_PREFERENCES = "mysettings";
-    public static final String APP_PREFERENCES_LAST_NOTEPAD_ID = "last_notepad_id";
     private SharedPreferences mSettings;
 
     static int lastId=NotesListActivity.lastId;
@@ -28,15 +26,14 @@ public class NotePad implements Parcelable {
 
         mSettings = NotesListActivity.mSettings;
 
-        if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
+        if (mSettings.contains(NotesListActivity.APP_PREFERENCES_LAST_NOTEPAD_ID)) {
             // Получаем число из настроек
-            lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
+            lastId = NotesListActivity.mSettings.getInt(NotesListActivity.APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
+        }
 
             id = ++lastId;
 
-
             notepadCreateDir(id);
-        }
     }
 
     void notepadCreateDir(int id) {
@@ -50,7 +47,7 @@ public class NotePad implements Parcelable {
             Log.d("myLogs", "created " + path);
 
             SharedPreferences.Editor editor = mSettings.edit();
-            editor.putInt(APP_PREFERENCES_LAST_NOTEPAD_ID, id);
+            editor.putInt(NotesListActivity.APP_PREFERENCES_LAST_NOTEPAD_ID, id);
             editor.apply();
 
         }

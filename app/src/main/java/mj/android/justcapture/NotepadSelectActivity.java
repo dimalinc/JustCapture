@@ -103,8 +103,10 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        Log.d("myLogs", "requestCode = " + requestCode + ", resultCode = " + resultCode);
 
-        if ((requestCode == REQUEST_CODE_NEW_NOTEPAD) && (resultCode != 0)) {
+
+        if ((requestCode == REQUEST_CODE_NEW_NOTEPAD) && (resultCode == RESULT_OK)) {
 
             NotePad gotNotePad = (NotePad) data.getParcelableExtra("notepad");
 
@@ -158,14 +160,13 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
 
     }
 
-   /* @Override
+    @Override
     protected void onPause() {
         super.onPause();
 
-        SharedPreferences.Editor editor = mSettings.edit();
-        editor.putInt(APP_PREFERENCES_LAST_NOTEPAD_ID, NotePad.lastId);
-        editor.apply();
+
     }
+
 
     @Override
     protected void onResume() {
@@ -174,5 +175,5 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
         if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
             NotePad.lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID,0);
         }
-    }*/
+    }
 }
