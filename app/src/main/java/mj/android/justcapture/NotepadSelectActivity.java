@@ -85,7 +85,6 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
     }
 
     void addNotepad() {
-        NotePad notepad = new NotePad();
 
         Intent intent = new Intent(this, NotesListActivity.class);
         startActivityForResult(intent, REQUEST_CODE_NEW_NOTEPAD);
@@ -120,6 +119,8 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
             if (file.isDirectory())
                 deleteFileOrDirRecursievely(file);
         }
+
+        NotePad.lastId = 0;
     }
 
     public void deleteFileOrDirRecursievely(File file)

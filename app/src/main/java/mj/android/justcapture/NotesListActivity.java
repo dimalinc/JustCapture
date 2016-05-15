@@ -179,7 +179,8 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
                 checkAndCreateProgramDir();
                 break;
             case R.id.btnSaveNotepad:
-                saveNotePad();
+               // saveNotePad();
+                finish();
                 break;
         }
     }
@@ -255,9 +256,9 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
 
         Intent intent = new Intent();
         intent.putExtra("notepad", notepad);
-        Log.d("myLogs","note returned as result of NoteActivity");
+        Log.d("myLogs", "note returned as result of NoteActivity");
         setResult(RESULT_OK, intent);
-        finish();
+       // finish();
 
 
     }

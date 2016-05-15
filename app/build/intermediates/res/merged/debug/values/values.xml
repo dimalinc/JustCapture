@@ -10,7 +10,7 @@
     <string name="menu_settings">Menu Settings</string>
     <string name="recapture">Recapture</string>
     <string name="title_activity_note">NoteActivity</string>
-    <string name="title_activity_notepad_select">NotepadSelectActivity</string>
+    <string name="title_activity_notepad_select">NotepadSelectActivityFULL_APP</string>
     <string name="title_activity_notes_list">NotesListActivity</string>
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--

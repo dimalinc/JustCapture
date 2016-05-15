@@ -1,9 +1,11 @@
 package mj.android.justcapture;
 
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.Log;
 
+import java.io.File;
 import java.util.Date;
 
 
@@ -17,6 +19,21 @@ public class NotePad implements Parcelable {
 
     public NotePad() {
         id = ++lastId;
+
+        notepadCreateDir(id);
+    }
+
+    void notepadCreateDir(int id) {
+        File path = new File (Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName +
+                File.separator + "notepad" +  id);
+        if (! path.exists()){
+            if (!path.mkdirs()) {
+                Log.d("myLogs", "couldn't create " + path);
+                return;
+            }
+            Log.d("myLogs","created " + path);
+        }
+
     }
 
     public static final Parcelable.Creator<NotePad> CREATOR = new Parcelable.Creator<NotePad>() {

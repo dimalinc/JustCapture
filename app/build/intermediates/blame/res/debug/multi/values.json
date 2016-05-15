@@ -115,8 +115,8 @@
                     "startLine": 12,
                     "startColumn": 4,
                     "startOffset": 628,
-                    "endColumn": 79,
-                    "endOffset": 703
+                    "endColumn": 87,
+                    "endOffset": 711
                 },
                 "from": {
                     "file": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\values\\strings.xml",
@@ -124,8 +124,8 @@
                         "startLine": 11,
                         "startColumn": 4,
                         "startOffset": 481,
-                        "endColumn": 79,
-                        "endOffset": 556
+                        "endColumn": 87,
+                        "endOffset": 564
                     }
                 }
             },
@@ -133,9 +133,9 @@
                 "to": {
                     "startLine": 13,
                     "startColumn": 4,
-                    "startOffset": 708,
+                    "startOffset": 716,
                     "endColumn": 71,
-                    "endOffset": 775
+                    "endOffset": 783
                 },
                 "from": {
                     "file": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\values\\strings.xml"
@@ -145,10 +145,10 @@
                 "to": {
                     "startLine": 14,
                     "startColumn": 4,
-                    "startOffset": 780,
+                    "startOffset": 788,
                     "endLine": 20,
                     "endColumn": 12,
-                    "endOffset": 1066
+                    "endOffset": 1074
                 },
                 "from": {
                     "file": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\values\\styles.xml"
@@ -158,10 +158,10 @@
                 "to": {
                     "startLine": 21,
                     "startColumn": 4,
-                    "startOffset": 1071,
+                    "startOffset": 1079,
                     "endLine": 23,
                     "endColumn": 12,
-                    "endOffset": 1226
+                    "endOffset": 1234
                 },
                 "from": {
                     "file": "C:\\Users\\1\\AndroidStudioProjects\\JustCapture\\app\\src\\main\\res\\values\\styles.xml"
