@@ -66,7 +66,6 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_list);
 
-        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
 
 
@@ -96,6 +95,18 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         btnSaveNotepad.setOnClickListener(this);
         textView = (TextView)findViewById(R.id.textView);
         etNotepadName = (EditText)findViewById(R.id.etNotepadName);
+
+        mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+
+        if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
+            // Получаем число из настроек
+            lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
+        }
+
+
+
+        etNotepadName.setText("Блокнот_"+ (lastId+1));
+        etNotepadName.selectAll();
 
 
         // Проверяем и создаем директорию

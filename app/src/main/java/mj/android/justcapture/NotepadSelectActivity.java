@@ -130,6 +130,10 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
         }
 
         NotePad.lastId = 0;
+
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putInt(APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
+        editor.apply();
     }
 
     public void deleteFileOrDirRecursievely(File file)
