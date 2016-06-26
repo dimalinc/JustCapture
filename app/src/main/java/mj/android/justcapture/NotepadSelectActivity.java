@@ -13,26 +13,48 @@ import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class NotepadSelectActivity extends Activity implements View.OnClickListener{
 
+
     public static final String APP_PREFERENCES = "mysettings";
-    public static final String APP_PREFERENCES_LAST_NOTEPAD_ID = "last_notepad_id";
-    private SharedPreferences mSettings;
+    public static final String APP_PREFERENCES_NOTEPADS_LIST = "notepadsList";
+    static SharedPreferences mSettings;
 
     final static int REQUEST_CODE_NEW_NOTEPAD = 5;
+
+    final String noteListSerializeFilename = NoteActivity.programDirectoryName + File.separator + NotepadSelectActivity.APP_PREFERENCES_NOTEPADS_LIST+".ser";
 
     ListAdapter adapter;
     ListView listView;
 
-    ArrayList<NotePad> notePadsList = new ArrayList<>();
+    public static ArrayList<NotePad> notePadsList= new ArrayList<>();
+
+    /*static {
+        try {
+            notePadsList = NotePad.getData();
+            Log.d("myLogs", "notePadsList loaded from preferences");
+        } catch (org.json.JSONException e) {e.printStackTrace();}
+    }*/
+        public static ArrayList<NotePad> notePadsList2 = new ArrayList<>(); //
+
+
 
     Button btnAddNotepad, btnDeleteAllNotepads;
 
+    NotePad newNotePad;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +76,8 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
        // notePadsList.add(new NotePad());
        // notePadsList.add(new NotePad());
 
+        notePadsListInit();
+
         adapterInit();
 
         //Обрабатываем щелчки на элементах ListView:
@@ -70,6 +94,14 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
         });
     }
 
+    void notePadsListInit() {
+
+        notePadsList = NotePad.readNotepadsListFromFile();
+
+
+    }
+
+
     void adapterInit() {
         adapter = new SimpleAdapter(this, createDataArrayList(), R.layout.notepad_row,
                 new String[] { "name", "date" }, new int[] {
@@ -80,7 +112,12 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
 
     private ArrayList<HashMap<String, Object>> createDataArrayList() {
 
+
+
+
         // Упаковываем данные
+
+
         ArrayList<HashMap<String, Object>> data = new ArrayList<>(
                 notePadsList.size());
         HashMap<String, Object> map;
@@ -110,6 +147,10 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
     void addNotepad() {
 
         Intent intent = new Intent(this, NotesListActivity.class);
+
+       // newNotePad = new NotePad();
+       // intent.putExtra("newNotepad",newNotePad);
+
         startActivityForResult(intent, REQUEST_CODE_NEW_NOTEPAD);
 
     }
@@ -125,7 +166,35 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
             NotePad gotNotePad = (NotePad) data.getParcelableExtra("notepad");
 
             notePadsList.add(gotNotePad);
+
+            // сохранение списка блокнотов
+
+            NotePad.saveNotePadsToFile(notePadsList);
+            notePadsList = NotePad.readNotepadsListFromFile();
+
+
+           // serializeNotepadList(notePadsList);
+
+           // NotePad.saveData(notePadsList);
+
+
+
+
+
+
+            /*if (notePadsList.equals(notePadsList2)) Log.d("myLogs", "notePadsList.saved equals notepadlist.loaded");
+            if (notePadsList.size()==(notePadsList2.size())) Log.d("myLogs", "notePadsList.saved.size equals notepadlist.loaded.size");
+            for (int i = 0; i <notePadsList.size() ; i++) {
+                Log.d("myLogs", notePadsList.get(i).name);
+            }*/
+
+           /* for (int i = 0; i <notePadsList.size() ; i++) {
+                Log.d("myLogs", notePadsList2.get(i).name);
+            }*/
+
             Log.d("myLogs", "gotNotePad read from intent name = " + gotNotePad.name);
+
+
 
            // textView.setText(gotNotePad.name);
 
@@ -133,6 +202,60 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
 
             adapterInit();
         }
+
+    }
+
+    public void serializeNotepadList(ArrayList<NotePad> incomingNotepadList) {
+
+       /* NotepadList notepadList = new NotepadList();
+        notepadList.notePadsList = incomingNotepadList;*/
+
+        ObjectOutputStream out = null;
+        try {
+
+            File file = new File (Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName +
+                    File.separator + NotepadSelectActivity.APP_PREFERENCES_NOTEPADS_LIST+".ser" );
+            if (!file.exists()){
+                if (!file.createNewFile())
+                    Toast.makeText(NotepadSelectActivity.this, "unable to create notepadList file", Toast.LENGTH_SHORT).show();
+            }
+            out = new ObjectOutputStream(new BufferedOutputStream(
+                    new FileOutputStream(file)));
+
+            for (NotePad incomingNotePad: incomingNotepadList) {
+                out.writeObject(incomingNotePad.toJSON());
+            }
+
+
+
+            out.close();
+
+            Toast.makeText(NotepadSelectActivity.this, "notepadsList written to" + noteListSerializeFilename, Toast.LENGTH_LONG).show();
+
+
+        } catch ( IOException ex ) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public  void deserialize() {
+
+        ObjectInputStream in = null;
+        NotepadList restObj = null;
+        try {
+            in = new ObjectInputStream(new BufferedInputStream(
+                    new FileInputStream(noteListSerializeFilename)));
+            restObj = (NotepadList)in.readObject();
+        } catch ( IOException ex ) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+
+
+        notePadsList = restObj.notePadsList;
+        NotepadSelectActivity.notePadsList = notePadsList;
 
     }
 
@@ -148,7 +271,7 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
         NotePad.lastId = 0;
 
         SharedPreferences.Editor editor = mSettings.edit();
-        editor.putInt(APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
+        editor.putInt(APP_PREFERENCES_NOTEPADS_LIST, 0);
         editor.apply();
 
         notePadsList = new ArrayList<>();
@@ -189,8 +312,8 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
     protected void onResume() {
         super.onResume();
 
-        if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
-            NotePad.lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID,0);
+        if (mSettings.contains(APP_PREFERENCES_NOTEPADS_LIST)) {
+            NotePad.lastId = mSettings.getInt(APP_PREFERENCES_NOTEPADS_LIST,0);
         }
     }
 }

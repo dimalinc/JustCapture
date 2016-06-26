@@ -68,7 +68,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notes_list);
 
-
+       // notepad = (NotePad)getIntent().getExtras().get("newNotepad");
 
 
         listView = (ListView) findViewById(R.id.listView);
@@ -108,6 +108,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
 
 
         etNotepadName.setText("Блокнот_"+ (lastId+1));
+      //  etNotepadName.setText(notepad.name);
         etNotepadName.selectAll();
 
 
@@ -167,9 +168,6 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
                 Toast.makeText(NotesListActivity.this, "unable to create notepad dir", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
 
 
     void createNewNote() {
