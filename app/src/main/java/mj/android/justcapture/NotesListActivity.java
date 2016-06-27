@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.HashMap;
 
 public class NotesListActivity extends Activity implements View.OnClickListener {
 
+    public static final int ID_DEFAULT_VALUE = -1;
     public static final String APP_PREFERENCES = "mysettings";
     public static final String APP_PREFERENCES_LAST_NOTEPAD_ID = "last_notepad_id";
     protected static SharedPreferences mSettings;
@@ -78,14 +80,10 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
 
 
 
-        adapter = new SimpleAdapter(this, createDataArrayList(), R.layout.note_row,
-                new String[] { "name", "category" }, new int[] {
-                R.id.tv1, R.id.tv2 });
-        listView.setAdapter(adapter);
+
 
 
         //TODO write generation of notepadNames
-        notepadName = "notepad1";
 
         addNote = (Button)findViewById(R.id.buttonAddNote);
         deleteNote = (Button)findViewById(R.id.buttonDeleteNote);
@@ -100,20 +98,11 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
 
         mSettings = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
-        if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
-            // Получаем число из настроек
-            lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
-        }
 
 
 
-        etNotepadName.setText("Блокнот_"+ (lastId+1));
-      //  etNotepadName.setText(notepad.name);
-        etNotepadName.selectAll();
 
 
-        // Проверяем и создаем директорию
-        checkAndCreateProgramDir();
 
 
 
@@ -127,6 +116,47 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
 
 
 
+        Intent intent = getIntent();
+
+        int id = intent.getIntExtra("id",ID_DEFAULT_VALUE);
+
+        if (id == ID_DEFAULT_VALUE) {
+
+            if (mSettings.contains(APP_PREFERENCES_LAST_NOTEPAD_ID)) {
+                // Получаем число из настроек
+                lastId = mSettings.getInt(APP_PREFERENCES_LAST_NOTEPAD_ID, 0);
+            }
+
+            etNotepadName.setText("notepad"+ (lastId+1));
+            //  etNotepadName.setText(notepad.name);
+            etNotepadName.selectAll();
+            notepad = new NotePad();
+            notepad.name = etNotepadName.getText().toString();
+
+
+        } else {
+            notepad = NotepadSelectActivity.notePadsList.get(id);
+            etNotepadName.setText(notepad.name);
+        }
+
+        notepadName = notepad.name;
+
+
+
+
+
+
+
+        // Проверяем и создаем директорию
+        checkAndCreateProgramDir();
+
+
+        noteListInit();
+
+        adapter = new SimpleAdapter(this, createDataArrayList(), R.layout.note_row,
+                new String[] { "name", "category" }, new int[] {
+                R.id.tv1, R.id.tv2 });
+        listView.setAdapter(adapter);
 
         //Обрабатываем щелчки на элементах ListView:
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -142,6 +172,51 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         });
     }
 
+    void noteListInit() {
+
+        noteList = readNotesFromFileSystem();
+
+    }
+
+
+    ArrayList<Note> readNotesFromFileSystem() {
+
+        File path = new File (Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName +
+                File.separator + notepad.name );
+
+       return readNotesFromPath(path);
+
+
+    }
+
+    ArrayList<Note> readNotesFromPath(File file) {
+        if(!file.exists())
+            return null;
+        if(file.isDirectory())
+        {
+            for(File f : file.listFiles()) {
+                Note note = new Note( Integer.parseInt(f.getName()) );
+
+                noteDescriptionParse(note);
+
+                noteList.add(note);
+            }
+        }
+        else {
+
+        }
+
+        return noteList;
+    }
+
+    void noteDescriptionParse(Note note) {
+
+
+
+        note.name = "";
+        note.category = "";
+        note.description = "";
+    }
 
 
 
@@ -165,7 +240,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         File path = new File (Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName);
         if (! path.exists()){
             if (!path.mkdirs())
-                Toast.makeText(NotesListActivity.this, "unable to create notepad dir", Toast.LENGTH_SHORT).show();
+                Toast.makeText(NotesListActivity.this, "unable to create program dir", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -259,8 +334,7 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
 
     void saveNotePad()  {
 
-        notepad = new NotePad();
-        notepad.name = etNotepadName.getText().toString();
+
 
         Intent intent = new Intent();
         intent.putExtra("notepad", notepad);

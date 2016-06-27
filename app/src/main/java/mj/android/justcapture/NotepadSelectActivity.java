@@ -86,49 +86,25 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
                 Intent intent = new Intent();
                 intent.setClass(NotepadSelectActivity.this, NotesListActivity.class);
 
-                intent.putExtra("head", position);
+                intent.putExtra("id", position);
 
                 //запускаем вторую активность
-                startActivity(intent);
+                // startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_NEW_NOTEPAD);
+
             }
         });
     }
 
-    void notePadsListInit() {
+    void addNotepad() {
 
-        notePadsList = NotePad.readNotepadsListFromFile();
+        Intent intent = new Intent(this, NotesListActivity.class);
 
+        // newNotePad = new NotePad();
+        // intent.putExtra("newNotepad",newNotePad);
 
-    }
+        startActivityForResult(intent, REQUEST_CODE_NEW_NOTEPAD);
 
-
-    void adapterInit() {
-        adapter = new SimpleAdapter(this, createDataArrayList(), R.layout.notepad_row,
-                new String[] { "name", "date" }, new int[] {
-                R.id.tvNotepadName, R.id.tvNotepadDate });
-        listView.setAdapter(adapter);
-    }
-
-
-    private ArrayList<HashMap<String, Object>> createDataArrayList() {
-
-
-
-
-        // Упаковываем данные
-
-
-        ArrayList<HashMap<String, Object>> data = new ArrayList<>(
-                notePadsList.size());
-        HashMap<String, Object> map;
-        for (int i = 0; i < notePadsList.size(); i++) {
-            map = new HashMap<>();
-            map.put("name", notePadsList.get(i).name);
-
-            data.add(map);
-        }
-
-        return data;
     }
 
     @Override
@@ -144,16 +120,41 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
         }
     }
 
-    void addNotepad() {
+    void notePadsListInit() {
 
-        Intent intent = new Intent(this, NotesListActivity.class);
-
-       // newNotePad = new NotePad();
-       // intent.putExtra("newNotepad",newNotePad);
-
-        startActivityForResult(intent, REQUEST_CODE_NEW_NOTEPAD);
+        notePadsList = NotePad.readNotepadsListFromFile();
 
     }
+
+
+    void adapterInit() {
+        adapter = new SimpleAdapter(this, createDataArrayList(), R.layout.notepad_row,
+                new String[] { "name", "date" }, new int[] {
+                R.id.tvNotepadName, R.id.tvNotepadDate });
+        listView.setAdapter(adapter);
+    }
+
+
+    private ArrayList<HashMap<String, Object>> createDataArrayList() {
+
+        // Упаковываем данные
+
+        ArrayList<HashMap<String, Object>> data = new ArrayList<>(
+                notePadsList.size());
+        HashMap<String, Object> map;
+        for (int i = 0; i < notePadsList.size(); i++) {
+            map = new HashMap<>();
+            map.put("name", notePadsList.get(i).name);
+
+            data.add(map);
+        }
+
+        return data;
+    }
+
+
+
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -165,6 +166,15 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
 
             NotePad gotNotePad = (NotePad) data.getParcelableExtra("notepad");
 
+            boolean oldNotepad = false;
+            for (NotePad notePad: notePadsList) {
+                if (notePad.id == gotNotePad.id) {
+                    oldNotepad = true;
+                    break;
+                }
+            }
+
+            if (!oldNotepad)
             notePadsList.add(gotNotePad);
 
             // сохранение списка блокнотов
@@ -255,7 +265,6 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
 
 
         notePadsList = restObj.notePadsList;
-        NotepadSelectActivity.notePadsList = notePadsList;
 
     }
 
@@ -264,8 +273,10 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
         //deleteFileOrDirRecursievely(new File(Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName));
         File rootDir = new File(Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName);
         for (File file:rootDir.listFiles()) {
-            if (file.isDirectory())
+            if ( (file.isDirectory()) || ( file.getName().contains(NotePad.NOTEPADS_LIST_FILE_NAME) ) )
                 deleteFileOrDirRecursievely(file);
+
+
         }
 
         NotePad.lastId = 0;
@@ -295,10 +306,6 @@ public class NotepadSelectActivity extends Activity implements View.OnClickListe
 
     }
 
-    void saveNotepadsToFile() {
-
-
-    }
 
     @Override
     protected void onPause() {

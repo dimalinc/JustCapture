@@ -299,6 +299,7 @@ public class NoteActivity extends Activity implements View.OnClickListener{
         String sku = etSku.getText().toString();
         String category = etCategory.getText().toString();
         String description = etDescription.getText().toString();
+        int id = note.id;
 
         note.name = name;
         note.sku = sku;
@@ -306,7 +307,8 @@ public class NoteActivity extends Activity implements View.OnClickListener{
         note.description = description;
 
 
-        String outputString = name + "\n" + System.getProperty("line.separator")
+        String outputString = id + "\n" + System.getProperty("line.separator")
+                + name + "\n" + System.getProperty("line.separator")
                 + sku + "\n" + System.getProperty("line.separator") +
                 category +  "\n" + System.getProperty("line.separator") + description
                 +  "\n" + System.getProperty("line.separator");
@@ -383,7 +385,7 @@ public class NoteActivity extends Activity implements View.OnClickListener{
 
         // Создаем имя файла
         String timeStamp = String.valueOf(System.currentTimeMillis());
-        File newFile = new File(path.getPath() + File.separator + id + "_" + timeStamp + "_note_description" + ".txt");
+        File newFile = new File(path.getPath() + File.separator /* + id + "_" + timeStamp*/ + "_note_description" + ".txt");
 
         return Uri.fromFile(newFile).toString();
     }
@@ -394,7 +396,8 @@ public class NoteActivity extends Activity implements View.OnClickListener{
             return null;
 
         // Проверяем и создаем директорию
-        File path = new File(Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName + File.separator + NotesListActivity.notepadName + File.separator + NotesListActivity.noteIndex);
+        File path = new File(Environment.getExternalStorageDirectory(), NoteActivity.programDirectoryName +
+                File.separator + NotesListActivity.notepadName + File.separator + NotesListActivity.noteIndex);
         if (! path.exists()){
             if (! path.mkdirs()){
                 return null;
