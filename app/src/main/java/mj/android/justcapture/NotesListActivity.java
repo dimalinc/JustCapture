@@ -194,10 +194,17 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
             return null;
         if(file.isDirectory())
         {
-            for(File f : file.listFiles()) {
-                Note note = new Note( Integer.parseInt(f.getName()) );
+            for(File notePath : file.listFiles()) {
 
-                noteDescriptionParse(note);
+                // парсим имя заметки и создаем заметку с таким именем
+                Note note = new Note( Integer.parseInt(notePath.getName()) );
+
+                for (File descriptionNoteFile: notePath.listFiles() ) {
+                    if (descriptionNoteFile.getName().contains("description"))
+                        noteDescriptionParse(note, descriptionNoteFile);
+                }
+
+               //
 
                 noteList.add(note);
             }
@@ -209,14 +216,87 @@ public class NotesListActivity extends Activity implements View.OnClickListener 
         return noteList;
     }
 
-    void noteDescriptionParse(Note note) {
+    void noteDescriptionParse(Note note, File file) {
+
+        String readFromFileNoteString = null;
+        try
+        {
+            FileReader reader = new FileReader(file);
+
+            char[] buffer = new char[(int)file.length()];
+            // считаем файл полностью
+            reader.read(buffer);
+            readFromFileNoteString = new String(buffer);
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
+        }
+
+
+        if (readFromFileNoteString != null)
+            parseReadFromFileNoteString(note, readFromFileNoteString);
 
 
 
-        note.name = "";
-        note.category = "";
-        note.description = "";
+
     }
+
+    static void parseReadFromFileNoteString(Note note, String readFromFileNoteString) {
+
+        String[] stringArray = readFromFileNoteString.split("\n" + System.getProperty("line.separator"));
+        Log.d ("myLogs", " number of strings parsed from FileNoteString = " + stringArray.length);
+
+        for (int i = 0; i < stringArray.length; i++) {
+            if (stringArray[i].startsWith("NoteID = "))
+                note.id = Integer.parseInt(stringArray[i].substring(9));
+
+            if (stringArray[i].startsWith("NoteNAME = "))
+                note.name = stringArray[i].substring(11);
+
+            if (stringArray[i].startsWith("NoteSKU = "))
+                note.sku = stringArray[i].substring(10);
+
+            if (stringArray[i].startsWith("NoteCATEGORY = "))
+                note.category = stringArray[i].substring(15);
+
+            if (stringArray[i].startsWith("NoteDESCRIPTION = "))
+                note.description = stringArray[i].substring(17);
+
+        }
+
+
+    }
+
+
+
+
+    /*static ArrayList<NotePad> readNotepadsListFromFile() {
+        File f = new File(generateNotePadsFileAndGetFileName().substring(8));
+
+        String readFromFileNotepadsListString = null;
+        try
+        {
+            FileReader reader = new FileReader(f);
+
+            char[] buffer = new char[(int)f.length()];
+            // считаем файл полностью
+            reader.read(buffer);
+            readFromFileNotepadsListString = new String(buffer);
+        }
+        catch(IOException ex){
+
+            System.out.println(ex.getMessage());
+        }
+
+
+        if (readFromFileNotepadsListString != null)
+            return parseReadFromFileNotepadsListString(readFromFileNotepadsListString);
+
+
+            // TODO: добавить проверку на null
+        else return null;
+    }*/
 
 
 

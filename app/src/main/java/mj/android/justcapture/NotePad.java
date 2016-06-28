@@ -149,8 +149,6 @@ public class NotePad  /*extends NotePadSerializeable */implements Parcelable{
                 notepadsListParsedFromString.add(notePad);
                 Log.d("myLogs"," one more notepad parsed from string. Notepad id = " + notePad.id);
             }
-
-            
         }
 
 

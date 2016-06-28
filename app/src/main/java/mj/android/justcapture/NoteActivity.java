@@ -299,6 +299,7 @@ public class NoteActivity extends Activity implements View.OnClickListener{
         String sku = etSku.getText().toString();
         String category = etCategory.getText().toString();
         String description = etDescription.getText().toString();
+
         int id = note.id;
 
         note.name = name;
@@ -307,11 +308,11 @@ public class NoteActivity extends Activity implements View.OnClickListener{
         note.description = description;
 
 
-        String outputString = id + "\n" + System.getProperty("line.separator")
-                + name + "\n" + System.getProperty("line.separator")
-                + sku + "\n" + System.getProperty("line.separator") +
-                category +  "\n" + System.getProperty("line.separator") + description
-                +  "\n" + System.getProperty("line.separator");
+        String outputString = "NoteID = " +id + "\n" + System.getProperty("line.separator")
+                + "NoteNAME = " + name + "\n" + System.getProperty("line.separator")
+                + "NoteSKU = " + sku + "\n" + System.getProperty("line.separator")
+                + "NoteCATEGORY = " + category +  "\n" + System.getProperty("line.separator")
+                + "NoteDESCRIPTION = " + description +  "\n" + System.getProperty("line.separator");
 
         Log.d("myLogs","preparing to generateNoteDescriptionFileName ");
         Toast.makeText(NoteActivity.this,
